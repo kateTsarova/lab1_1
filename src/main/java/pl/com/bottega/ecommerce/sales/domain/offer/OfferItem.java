@@ -33,6 +33,44 @@ class Money{
     public BigDecimal getAmount() {
         return amount;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (this.currency == null ? 0 : this.currency.hashCode());
+        result = prime * result + (this.amount == null ? 0 : this.amount.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Money other = (Money) obj;
+        if (this.getAmount() == null) {
+            if (other.getAmount() != null) {
+                return false;
+            }
+        } else if (!this.getAmount().equals(other.getAmount())) {
+            return false;
+        }
+        if (this.getCurrency() == null) {
+            if (other.getCurrency() != null) {
+                return false;
+            }
+        } else if (!this.getCurrency().equals(other.getCurrency())) {
+            return false;
+        }
+        return true;
+    }
 }
 
 class Discount{
@@ -52,6 +90,44 @@ class Discount{
 
     public BigDecimal getDiscount() {
         return discount;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (this.discountCause == null ? 0 : this.discountCause.hashCode());
+        result = prime * result + (this.discount == null ? 0 : this.discount.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Discount other = (Discount) obj;
+        if (this.getDiscount() == null) {
+            if (other.getDiscount() != null) {
+                return false;
+            }
+        } else if (!this.getDiscount().equals(other.getDiscount())) {
+            return false;
+        }
+        if (this.getDiscountCause() == null) {
+            if (other.getDiscountCause() != null) {
+                return false;
+            }
+        } else if (!this.getDiscountCause().equals(other.getDiscountCause())) {
+            return false;
+        }
+        return true;
     }
 }
 
@@ -185,7 +261,7 @@ public class OfferItem {
         return totalCost;
     }
 
-    public Money getTotalCostCurrency() {
+    public Money getCurrency() {
         return currency;
     }
 
@@ -225,6 +301,13 @@ public class OfferItem {
                 return false;
             }
         } else if (!discount.equals(other.discount)) {
+            return false;
+        }
+        if (currency == null) {
+            if (other.currency != null) {
+                return false;
+            }
+        } else if (!currency.equals(other.currency)) {
             return false;
         }
         if (product == null) {
