@@ -24,12 +24,34 @@ class Money{
         this.amount = amount;
     }
 
+    Money(){ }
+
     public String getCurrency() {
         return currency;
     }
 
     public BigDecimal getAmount() {
         return amount;
+    }
+}
+
+class Discount{
+    private String discountCause;
+    private BigDecimal discount;
+
+    Discount(String discountCause, BigDecimal discount){
+        this.discountCause = discountCause;
+        this.discount = discount;
+    }
+
+    Discount(){ }
+
+    public String getDiscountCause() {
+        return discountCause;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
     }
 }
 
@@ -50,20 +72,17 @@ public class OfferItem {
 
     private BigDecimal totalCost;
 
-    // discount
-    private String discountCause;
-
-    private BigDecimal discount;
-
     private Money currency;
+
+    private Discount discount;
 
     public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate,
             String productType, int quantity) {
-        this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null, null);
+        this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null);
     }
 
     public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate,
-            String productType, int quantity, BigDecimal discount, String discountCause, Money money) {
+            String productType, int quantity, Discount discount, Money money) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.productName = productName;
@@ -71,14 +90,14 @@ public class OfferItem {
         this.productType = productType;
 
         this.quantity = quantity;
+
         this.discount = discount;
-        this.discountCause = discountCause;
 
         this.currency = money;
 
         BigDecimal discountValue = new BigDecimal(0);
         if (discount != null) {
-            discountValue = discountValue.subtract(discount);
+            discountValue = discountValue.subtract(discount.getDiscount());
         }
 
         this.totalCost = productPrice.multiply(new BigDecimal(quantity)).subtract(discountValue);
@@ -113,11 +132,11 @@ public class OfferItem {
     }
 
     public BigDecimal getDiscount() {
-        return discount;
+        return discount.getDiscount();
     }
 
     public String getDiscountCause() {
-        return discountCause;
+        return discount.getDiscountCause();
     }
 
     public int getQuantity() {
