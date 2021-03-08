@@ -15,6 +15,24 @@ package pl.com.bottega.ecommerce.sales.domain.offer;
 import java.math.BigDecimal;
 import java.util.Date;
 
+class Money{
+    private String currency;
+    private BigDecimal amount;
+
+    Money(String currency, BigDecimal amount){
+        this.currency = currency;
+        this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+}
+
 public class OfferItem {
 
     // product
@@ -32,20 +50,20 @@ public class OfferItem {
 
     private BigDecimal totalCost;
 
-    private String currency;
-
     // discount
     private String discountCause;
 
     private BigDecimal discount;
 
+    private Money currency;
+
     public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate,
             String productType, int quantity) {
-        this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null);
+        this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null, null);
     }
 
     public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate,
-            String productType, int quantity, BigDecimal discount, String discountCause) {
+            String productType, int quantity, BigDecimal discount, String discountCause, Money money) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.productName = productName;
@@ -55,6 +73,8 @@ public class OfferItem {
         this.quantity = quantity;
         this.discount = discount;
         this.discountCause = discountCause;
+
+        this.currency = money;
 
         BigDecimal discountValue = new BigDecimal(0);
         if (discount != null) {
@@ -89,7 +109,7 @@ public class OfferItem {
     }
 
     public String getTotalCostCurrency() {
-        return currency;
+        return currency.getCurrency();
     }
 
     public BigDecimal getDiscount() {
@@ -176,7 +196,6 @@ public class OfferItem {
 
     /**
      *
-     * @param item
      * @param delta
      *            acceptable percentage difference
      * @return
